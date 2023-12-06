@@ -1,13 +1,14 @@
 import pandas as pd
-carac=pd.read_csv('c:\Users\cassa\Desktop\github_iut\iut_sd3_accidents\data\carac.csv', encoding='latin1')
-lieux=pd.read_csv('c:\Users\cassa\Desktop\github_iut\iut_sd3_accidents\data\data/lieux.csv' , encoding='latin1')
-veh=pd.read_csv('c:\Users\cassa\Desktop\github_iut\iut_sd3_accidents\data\data/veh.csv' , encoding='latin1')
-vict=pd.read_csv('c:\Users\cassa\Desktop\github_iut\iut_sd3_accidents\data\data/carac.csv' , encoding='latin1')
 
-data=pd.merge(carac,lieux,on='Num_Acc', how='inner')
-data=pd.merge(data,veh,on='Num_Acc', how='inner')
-data=pd.merge(data,vict,on='Num_Acc', how='inner')
+carac=pd.read_csv('c:/Users/cassa/Desktop/github_iut/iut_sd3_accidents/data/carac.csv', sep=";")
+lieux=pd.read_csv('c:/Users/cassa/Desktop/github_iut/iut_sd3_accidents/data/lieux.csv' , sep=";", low_memory=False)
+veh=pd.read_csv('c:/Users/cassa/Desktop/github_iut/iut_sd3_accidents/data/veh.csv' ,sep=";")
+vict=pd.read_csv('c:/Users/cassa/Desktop/github_iut/iut_sd3_accidents/data/vict.csv' , sep=";")
 
-data.to_csv(data.csv,index=False, encoding='utf-8')
+victime = vict.merge(veh, on=['Num_Acc','num_veh'])
+accident = carac.merge(lieux, on="Num_Acc")
+victime = victime.merge(accident, on="Num_Acc")
+
+victime.to_csv("merged_data.csv", index=False)
 
 print("Fusion terminéé, le fichier data.csv à été crée.")
